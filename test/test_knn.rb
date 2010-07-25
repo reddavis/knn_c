@@ -18,7 +18,10 @@ class TestKnn < Test::Unit::TestCase
 
     should "assign @data" do
       puts @knn.inspect
-      puts @knn.instance_variable_get(:@data).inspect
+    end
+
+    should "return itself" do
+      puts @knn.nearest_neighbours(1,2).inspect
     end
   end
 end

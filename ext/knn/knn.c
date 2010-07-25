@@ -1,13 +1,5 @@
 #include <ruby.h>
 
-void knn_delete() {
-  // WTF to put in here
-}
-
-void knn_mark() {
-  // WTF to put in here
-}
-
 /*
 
 def initialize(data)
@@ -18,14 +10,18 @@ end
 */
 static VALUE rb_knn_new(VALUE self, VALUE data) {
   Check_Type(data, T_ARRAY); // Check its an array
+  rb_iv_set(self, "@data", data); // Set data
 
-  VALUE klass = Data_Wrap_Struct(self, knn_mark, knn_delete, 1); // WTF is the 0 and 1 for?
-  rb_iv_set(klass, "@data", data);
+  return self;
+}
 
-  return klass;
+static VALUE rb_knn_nearest_neighbour(VALUE self, VALUE input_data, VALUE k) {
+
+  return rb_iv_get(self, "@data");
 }
 
 void Init_knn() {
   VALUE knn_class = rb_define_class("Knn", rb_cObject);
-  rb_define_singleton_method(knn_class, "new", rb_knn_new, 1);
+  rb_define_method(knn_class, "initialize", rb_knn_new, 1);
+  rb_define_method(knn_class, "nearest_neighbours", rb_knn_nearest_neighbour, 2);
 }
