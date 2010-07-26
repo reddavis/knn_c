@@ -1,4 +1,8 @@
 #include <ruby.h>
+#include <stdio.h>
+#include <math.h>
+
+double euclidean_distance(VALUE vector_one, VALUE vector_two);
 
 /*
 
@@ -15,9 +19,48 @@ static VALUE rb_knn_new(VALUE self, VALUE data) {
   return self;
 }
 
-static VALUE rb_knn_nearest_neighbour(VALUE self, VALUE input_data, VALUE k) {
+// Something like:
+/*
 
-  return rb_iv_get(self, "@data");
+def nearest_neighbours(input, k=4)
+  calculated_distances = []
+
+  @data.each_with_index do |datum, index|
+    distance = input.euclidean_between(datum)
+    calculated_distances << [index, distance, datum]
+  end
+
+  calculated_distances.sort {|x, y| x[1] <=> y[1]}.first(k)
+end
+
+*/
+static VALUE rb_knn_nearest_neighbour(VALUE self, VALUE input_data, VALUE k) {
+  VALUE data = rb_iv_get(self, "@data");
+  VALUE results = rb_ary_new(); // Results go here
+
+  long data_length = RARRAY(data)->len;
+
+  int data_index; // index for @data
+
+  for(data_index = 0; data_index <= data_length; data_index++) {
+
+    VALUE result = rb_ary_new();
+    VALUE datum = RARRAY(data)->ptr[data_index];
+
+    VALUE distance = rb_float_new(euclidean_distance(input_data, datum));
+
+    //rb_ary_push(result, data_index);
+    rb_ary_push(result, distance);
+    //rb_ary_push(result, datum);
+
+    rb_ary_push(results, result);
+  } // for(data_index)
+
+  return results;
+}
+
+double euclidean_distance(VALUE vector_one, VALUE vector_two) {
+  return 1.123;
 }
 
 void Init_knn() {

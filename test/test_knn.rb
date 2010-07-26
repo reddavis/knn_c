@@ -21,7 +21,7 @@ class TestKnn < Test::Unit::TestCase
     end
 
     should "return itself" do
-      puts @knn.nearest_neighbours(1,2).inspect
+      puts @knn.nearest_neighbours([1,2,3], 4).inspect
     end
   end
 end
