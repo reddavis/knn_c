@@ -38,7 +38,7 @@ static VALUE rb_knn_nearest_neighbour(VALUE self, VALUE input_data, VALUE k) {
   VALUE data = rb_iv_get(self, "@data");
   VALUE results = rb_ary_new(); // Results go here
 
-  long data_length = RARRAY(data)->len;
+  long data_length = (RARRAY(data)->len - 1);
 
   int data_index; // index for @data
 
@@ -49,22 +49,36 @@ static VALUE rb_knn_nearest_neighbour(VALUE self, VALUE input_data, VALUE k) {
 
     VALUE distance = rb_float_new(euclidean_distance(input_data, datum));
 
-    //rb_ary_push(result, data_index);
+    rb_ary_push(result, rb_int_new(data_index));
     rb_ary_push(result, distance);
-    //rb_ary_push(result, datum);
+    rb_ary_push(result, datum);
 
-    rb_ary_push(results, result);
+    rb_ary_push(results, result); // Pussshhhhhh!
   } // for(data_index)
 
   return results;
 }
 
 double euclidean_distance(VALUE vector_one, VALUE vector_two) {
-  return 1.123;
+  double value = 0.0;
+
+  long vector_length = (RARRAY(vector_one)->len - 1); // Both should be the same - TODO check!
+  int index;
+
+  for(index = 0; index <= vector_length; index++) {
+    double x, y;
+
+    x = NUM2DBL(RARRAY(vector_one)->ptr[index]);
+    y = NUM2DBL(RARRAY(vector_two)->ptr[index]);
+
+    value += pow(x - y, 2);
+  }
+
+  return sqrt(value);
 }
 
-void Init_knn() {
-  VALUE knn_class = rb_define_class("Knn", rb_cObject);
+void Init_knn_c() {
+  VALUE knn_class = rb_define_class("KnnC", rb_cObject);
   rb_define_method(knn_class, "initialize", rb_knn_new, 1);
   rb_define_method(knn_class, "nearest_neighbours", rb_knn_nearest_neighbour, 2);
 }
