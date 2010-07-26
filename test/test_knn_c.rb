@@ -17,5 +17,8 @@ class TestKnnC < Test::Unit::TestCase
     should "return an array" do
       assert_kind_of Array, @knn.nearest_neighbours([1,2,3], 4)
     end
+
+    # TODO
+    # Test for correct answer ;)
   end
 end

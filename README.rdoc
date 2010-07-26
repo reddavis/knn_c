@@ -1,35 +1,34 @@
-= knn
+= KNN C
 
-* FIX (url)
+Though I'd try using C a bit more (i.e more than never), so here is a Ruby extension in C version of my KNN gem - http://github.com/reddavis/knn.
 
-== DESCRIPTION:
-
-FIX (describe your package)
+== Benchmark
+        user      system      total        real
+Ruby  2.800000   0.020000   2.820000 (  2.838406)
+C     0.160000   0.010000   0.170000 (  0.170568)
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* Not Complete
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  require 'rubygems'
+  require 'knn_c'
 
-== REQUIREMENTS:
+  data = Array.new(100000) { Array.new(4) { rand } }
 
-* FIX (list of requirements)
+  knn = KnnC.new(data)
 
-== INSTALL:
+  knn.nearest_neighbours([1,2,3,4], 4)  # ([data], k's)
+    #=> [[4837, 7.43033158269445, [0.966558570073977, 0.903158898673566, 0.954567901514261, 0.988114355901207]], ...
 
-* FIX (sudo gem install, anything else)
+  # Data is returned in the format
+  # [data index, distance to the input, [data points]]
 
-== DEVELOPERS:
-
-After checking out the source, run:
-
-  $ rake newb
-
-This task will install any missing dependencies, run the tests/specs,
-and generate the RDoc.
+  # So if we called queried the data array for 4837...
+  data[4837]
+    #=> [0.966558570073977, 0.903158898673566, 0.954567901514261, 0.988114355901207]
 
 == LICENSE:
 
