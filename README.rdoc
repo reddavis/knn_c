@@ -3,9 +3,10 @@
 Though I'd try using C a bit more (i.e more than never), so here is a Ruby extension in C version of my KNN gem - http://github.com/reddavis/knn.
 
 == Benchmark
-        user      system      total        real
-Ruby  2.800000   0.020000   2.820000 (  2.838406)
-C     0.160000   0.010000   0.170000 (  0.170568)
+
+          user      system      total        real
+  Ruby  2.800000   0.020000   2.820000 (  2.838406)
+  C     0.160000   0.010000   0.170000 (  0.170568)
 
 == FEATURES/PROBLEMS:
 
