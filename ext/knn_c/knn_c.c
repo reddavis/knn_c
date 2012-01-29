@@ -38,14 +38,14 @@ static VALUE rb_knn_nearest_neighbour(VALUE self, VALUE input_data, VALUE k) {
   VALUE data = rb_iv_get(self, "@data");
   VALUE results = rb_ary_new(); // Results go here
 
-  long data_length = (RARRAY(data)->len - 1);
+  long data_length = (RARRAY_LEN(data) - 1);
 
   int data_index; // index for @data
 
   for(data_index = 0; data_index <= data_length; data_index++) {
 
     VALUE result = rb_ary_new();
-    VALUE datum = RARRAY(data)->ptr[data_index];
+    VALUE datum = RARRAY_PTR(data)[data_index];
 
     VALUE distance = rb_float_new(euclidean_distance(input_data, datum));
 
@@ -62,14 +62,14 @@ static VALUE rb_knn_nearest_neighbour(VALUE self, VALUE input_data, VALUE k) {
 double euclidean_distance(VALUE vector_one, VALUE vector_two) {
   double value = 0.0;
 
-  long vector_length = (RARRAY(vector_one)->len - 1); // Both should be the same - TODO check!
+  long vector_length = (RARRAY_LEN(vector_one) - 1); // Both should be the same - TODO check!
   int index;
 
   for(index = 0; index <= vector_length; index++) {
     double x, y;
 
-    x = NUM2DBL(RARRAY(vector_one)->ptr[index]);
-    y = NUM2DBL(RARRAY(vector_two)->ptr[index]);
+    x = NUM2DBL(RARRAY_PTR(vector_one)[index]);
+    y = NUM2DBL(RARRAY_PTR(vector_two)[index]);
 
     value += pow(x - y, 2);
   }
